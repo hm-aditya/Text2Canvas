@@ -1,12 +1,41 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
-
+import { Button } from "./ui/button";
+import { signIn, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { Avatar, AvatarImage } from "./ui/avatar";
+import { AvatarFallback } from "@radix-ui/react-avatar";
+import { TbLoader } from "react-icons/tb";
 export default function Header() {
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status !== "loading") setInitialLoading(false);
+  }, [status, session]);
   return (
-    <div className="w-full h-[60px] bg-black border-b border-shadow border-opacity-50 bg-gradient-to-r from-black to-gray-800 p-4 flex items-center justify-between fixed top-0">
+    <div className="w-full h-[60px]  bg-transparent border-b border-shadow p-4 flex items-center justify-between fixed top-0">
       <Link href="/">
-        <h2 className="ml-8 font-bold text-xl tracking-tighter">Text2Canvas</h2>
+        <h2 className="ml-8 font-bold text-xl tracking-tighter bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent ">
+          Text2Canvas
+        </h2>
       </Link>
+      {initialLoading && status === "loading" ? (
+        <TbLoader className=" animate-spin" />
+      ) : !session ? (
+        <div className="__menu mr-2">
+          <Button onClick={() => signIn("google")}>Log in</Button>
+        </div>
+      ) : (
+        <Avatar>
+          <AvatarImage src={session.user?.image || ""} />
+          <AvatarFallback className="">
+            {session.user?.name?.charAt(0) || "U"}
+          </AvatarFallback>
+        </Avatar>
+      )}
     </div>
   );
 }
