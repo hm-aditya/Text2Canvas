@@ -16,9 +16,9 @@ export default function Header() {
     if (status !== "loading") setInitialLoading(false);
   }, [status, session]);
   return (
-    <div className="w-full h-[60px]  bg-transparent border-b border-shadow p-4 flex items-center justify-between fixed top-0">
+    <div className="w-full lg:max-w-7xl bg-transparent border-b border-shadow p-4 flex items-center justify-between fixed top-0">
       <Link href="/">
-        <h2 className="ml-8 font-bold text-xl tracking-tighter bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent ">
+        <h2 className="font-bold text-xl tracking-tighter bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent ">
           Text2Canvas
         </h2>
       </Link>
@@ -31,7 +31,7 @@ export default function Header() {
       ) : (
         <Avatar>
           <AvatarImage src={session.user?.image || ""} />
-          <AvatarFallback className="">
+          <AvatarFallback >
             {session.user?.name?.charAt(0) || "U"}
           </AvatarFallback>
         </Avatar>
