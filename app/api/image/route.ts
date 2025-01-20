@@ -35,3 +35,24 @@ export async function POST(request: NextRequest) {
   })
   return NextResponse.json({ url: imageUrl });
 }
+
+export async function GET(request: NextRequest) {
+  const session= await getServerSession(authOptions);
+  if (!session){
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+  const posts = await prisma.post.findMany({
+    where: {
+      userId: user.id,
+    },
+  });
+  return NextResponse.json({ posts });
+}
