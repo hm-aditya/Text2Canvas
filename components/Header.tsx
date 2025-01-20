@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
@@ -29,12 +29,15 @@ export default function Header() {
           <Button onClick={() => signIn("google")}>Log in</Button>
         </div>
       ) : (
-        <Avatar>
-          <AvatarImage src={session.user?.image || ""} />
-          <AvatarFallback >
-            {session.user?.name?.charAt(0) || "U"}
-          </AvatarFallback>
-        </Avatar>
+        <div className="flex gap-3 justify-center items-center">
+          <Button onClick={() => signOut()} className="mr-2 bg-red-500 text-white tracking-tight">Log out</Button>
+          <Avatar>
+            <AvatarImage src={session.user?.image || ""} />
+            <AvatarFallback>
+              {session.user?.name?.charAt(0) || "U"}
+            </AvatarFallback>
+          </Avatar>
+        </div>
       )}
     </div>
   );

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { z } from "zod";
 import Image from "next/image";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   prompt: z.string().min(6, {
@@ -23,6 +24,7 @@ const formSchema = z.object({
 export default function Page() {
   const [outputImage, setOutputImage] = useState<string | null>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,7 +39,12 @@ export default function Page() {
         body: JSON.stringify(values),
       });
       const data = await response.json();
-      setOutputImage(data.url);
+      if (response.status === 200) {
+        setOutputImage(data.url);
+      } else {
+        console.log(data.error);
+      toast({variant:"destructive",description:data.error});
+      }
     } catch (error) {
       console.error(error);
     } finally {
