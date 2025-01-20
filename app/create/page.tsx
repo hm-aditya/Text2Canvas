@@ -61,7 +61,7 @@ export default function Page() {
           Generate Quality Images from text prompt for free
         </p>
       </div>
-      <div className="flex w-full h-[calc(100dvh-200px)] md:flex-row flex-col gap-3">
+      <div className="flex w-full h-[calc(100dvh-200px)] lg:flex-row flex-col gap-3">
         <div className="__form flex-[2] gap-2 flex flex-col justify-center items-start">
           <p className="text-center w-full lg:text-left text-white/80 tracking-tight">
             Type your prompt below to Generate an Image

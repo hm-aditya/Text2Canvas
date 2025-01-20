@@ -16,7 +16,7 @@ export default function Header() {
     if (status !== "loading") setInitialLoading(false);
   }, [status, session]);
   return (
-    <div className="w-full lg:max-w-7xl backdrop-blur-sm   border-b border-shadow p-4 flex items-center justify-between fixed top-0">
+    <div className="w-full lg:max-w-7xl  fixed border-b border-shadow p-4 flex items-center justify-between  top-0">
       <Link href="/">
         <h2 className="font-bold text-xl tracking-tighter bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent ">
           Text2Canvas
@@ -30,14 +30,19 @@ export default function Header() {
         </div>
       ) : (
         <div className="flex gap-3 justify-center items-center">
-          <Button onClick={() => signOut()} className="mr-2 bg-red-500 text-white tracking-tight">Log out</Button>
+          <Button
+            onClick={() => signOut()}
+            className="mr-2 bg-red-500 text-white tracking-tight"
+          >
+            Log out
+          </Button>
           <Link href="/profile">
-          <Avatar>
-            <AvatarImage src={session.user?.image || ""} />
-            <AvatarFallback>
-              {session.user?.name?.charAt(0) || "U"}
-            </AvatarFallback>
-          </Avatar>
+            <Avatar>
+              <AvatarImage src={session.user?.image || ""} />
+              <AvatarFallback>
+                {session.user?.name?.charAt(0) || "U"}
+              </AvatarFallback>
+            </Avatar>
           </Link>
         </div>
       )}
