@@ -17,13 +17,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  const generateRandomNo = () => {
+  function generateRandomNo (): number {
     return Math.floor(Math.random() * 100000000) + 1;
   };
   const randomSeed = generateRandomNo();
   const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(
     prompt
-  )}&seed=${randomSeed}&width=300&height=300&nologo=True`;
+  )}?&seed=${randomSeed}&width=512&height=512&nologo=True`;
   await fetch(imageUrl);
   await prisma.post.create({
     data: {
@@ -58,5 +58,5 @@ export async function GET() {
       createdAt: "desc",
     }
   });
-return NextResponse.json( {posts} );
+return NextResponse.json( posts );
 }
