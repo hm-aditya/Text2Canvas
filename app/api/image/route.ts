@@ -58,5 +58,5 @@ export async function GET() {
       createdAt: "desc",
     }
   });
-  return NextResponse.json( posts );
+return NextResponse.json( {posts} );
 }
