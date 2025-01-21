@@ -47,7 +47,7 @@ export default function Page() {
                   alt={post.prompt}
                   className="w-full object-contain rounded-md hover:scale-105 transition-all duration-300 ease-in-out"
                 ></Image>
-                <p className="pt-4 text-xs text-center text-white/80">
+                <p className="pt-4 text-xl text-center text-white/80">
                   {post.prompt}
                 </p>
               </motion.div>

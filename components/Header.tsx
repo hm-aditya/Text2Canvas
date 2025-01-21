@@ -16,7 +16,7 @@ export default function Header() {
     if (status !== "loading") setInitialLoading(false);
   }, [status, session]);
   return (
-    <div className="w-full lg:max-w-7xl  fixed border-b border-shadow p-4 flex items-center justify-between  top-0">
+    <div className="w-full h-[60px] lg:max-w-7xl  fixed border-b  z-50 backdrop-blur-sm p-4 flex items-center justify-between  top-0">
       <Link href="/">
         <h2 className="font-bold text-xl tracking-tighter bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent ">
           Text2Canvas
