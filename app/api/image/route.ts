@@ -5,58 +5,72 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session)
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const { prompt}: { prompt: string } = await request.json();
+  if (!session) {
+    return NextResponse.json(
+      { error: "You are Unauthorized" },
+      { status: 401 }
+    );
+  }
+  const { prompt }: { prompt: string } = await request.json();
+
   const user = await prisma.user.findUnique({
     where: {
       id: session.user.id,
     },
   });
+
   if (!user) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
+    return NextResponse.json({ error: "No user found" }, { status: 401 });
   }
 
-  function generateRandomNo (): number {
+  function generateRandomNumber(): number {
     return Math.floor(Math.random() * 100000000) + 1;
-  };
-  const randomSeed = generateRandomNo();
-  const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(
+  }
+
+  const randomSeed = generateRandomNumber();
+  const imageURL = `https://image.pollinations.ai/prompt/${encodeURIComponent(
     prompt
-  )}?&seed=${randomSeed}&width=512&height=512&nologo=True`;
-  await fetch(imageUrl);
+  )}?seed=${randomSeed}&width=512&height=512&nologo=True`;
+
+  await fetch(imageURL);
+
   await prisma.post.create({
     data: {
-      seed: randomSeed,
-      url: imageUrl,
       prompt: prompt,
+      url: imageURL,
+      seed: randomSeed,
       userId: user.id,
-    }
-  })
-  return NextResponse.json({ url: imageUrl });
+    },
+  });
+
+  return NextResponse.json({ url: imageURL });
 }
 
 export async function GET() {
-  const session= await getServerSession(authOptions);
-  if (!session){
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json(
+      { error: "You are Unauthorized" },
+      { status: 401 }
+    );
   }
+
   const user = await prisma.user.findUnique({
     where: {
       id: session.user.id,
     },
   });
+
   if (!user) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
+    return NextResponse.json({ error: "No user found" }, { status: 401 });
   }
+
   const posts = await prisma.post.findMany({
-  
     where: {
       userId: user.id,
     },
-    orderBy: {
-      createdAt: "desc",
-    }
+    orderBy: { createdAt: "desc" },
   });
-return NextResponse.json( posts );
+
+  return NextResponse.json(posts);
 }
