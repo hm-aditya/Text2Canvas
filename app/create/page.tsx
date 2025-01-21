@@ -42,7 +42,7 @@ export default function Page() {
       if (response.status === 200) {
         setOutputImage(data.url);
       } else {
-        console.log(data.error);
+        
       toast({variant:"destructive",description:data.error});
       }
     } catch (error) {
