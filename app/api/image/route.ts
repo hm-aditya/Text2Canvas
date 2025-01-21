@@ -72,5 +72,5 @@ export async function GET() {
     orderBy: { createdAt: "desc" },
   });
 
-  return NextResponse.json(posts);
+  return NextResponse.json({posts});
 }
